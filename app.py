@@ -1,65 +1,39 @@
+from cours import Cours
+from etudiant import Etudiant, Etudiants
+from note import Note
+
 # ------------------------------------ CLASSES --------------------------------------
 # TODO: create and finish the classes
-# TODO: refactor into multiple files
-class Etudiant(object):
-    next_id = 0
-    notes = []
-    def __init__(self, prenom, nom, age):
-        self.id = Etudiant.next_id
-        Etudiant.next_id += 1
-        self.prenom = prenom
-        self.nom = nom
-        self.age = age
-
-    def __repr__(self):
-        return self.prenom + " " + self.nom + " (" + self.age + " ans)"
-
-    def add_note(self, note):
-        self.notes.append(note)
-
-    def get_notes(self):
-        print("Notes de " + self.prenom + " " + self.nom + " (" + self.age + " ans) : ")
-        for note in self.notes:
-            print(note.cours.nom + " (" + note.cours.annee + ") : " + note.note)
-
-class Cours(object):
-    notes = []
-    def __init__(self, nom, annee):
-        self.nom = nom
-        self.annee = annee
-
-    def __repr__(self):
-        return self.nom + " " + "(" + self.annee + ")"
-
-class Note(object):
-    def __init__(self, student, cours, note):
-        self.student = student
-        self.cours = cours
-        self.note = note
-
-    def __repr__(self):
-        return "La note " + self.note + " est attribuee pour l'étudiant " + self.student.prenom + " " + self.student.nom + "(" + self.student.age + " ans) dans le cours de " + self.cours.nom + " (" + self.cours.annee + ")"
-
-    def get_note_course(self):
-        print(self.student.prenom + " " + self.student.nom + " (" + self.student.age + " ans) : " + self.note)
 
 # -------------------------------------- MAIN ----------------------------------------
 # TODO: create and finish the main function
+menu = []
+
 def main():
-    all_students = []
-    all_courses = []
     all_notes = []
     go_on = True
+
+    Etudiant("Tony", "Bengué", 24)
+    Etudiant("Jean", "Gui", 30)
+
+    Cours("Python", 2020)
+    Cours("PL/SQL", 1995)
+
+    create_menu()
+
     while go_on:
-        answer = input("Votre choix : ")
+        answer = print_menu()
+
         if answer == 1:
             read_file()
         elif answer == 2:
             student = create_student()
             all_students.append(student)
         elif answer == 3:
-            note, all_students, all_courses = create_note(all_students, all_courses)
-            all_notes.append(note)
+            create_note(Etudiants.all_students, Cours.all_courses)
+
+            #note, all_students, all_courses = create_note(Etudiant.all_students, all_courses)
+            #all_notes.append(note)
         elif answer == 4:
             pass
         elif answer == 5:
@@ -70,19 +44,30 @@ def main():
             pass
         elif answer == 8:
             go_on = False
+        else:
+            print("Mauvais choix, veuillez en choisir un autre")
 
 # -------------------------------------- FUNCTIONS ----------------------------------------
-def print_menu():
+def create_menu():
     print("--------------------------------------------------------")
-    print("1 - Lecture des donnees depuis un fichier")
-    print("2 - Ajouter un etudiant")
-    print("3 - Ajouter une note")
-    print("4 - Afficher les notes d'un etudiant")
-    print("5 - Afficher les notes triees d'un cours")
-    print("6 - Supprimer un cours")
-    print("7 - Sauvegarder des donnees dans un fichier")
-    print("8 - Quitter")
-    print("\n")
+    menu.append("Lecture des données depuis un fichier")
+    menu.append("Ajouter un étudiant")
+    menu.append("Ajouter une note")
+    menu.append("Afficher les notes d'un étudiant")
+    menu.append("Afficher les notes triées d'un cours")
+    menu.append("Supprimer un cours")
+    menu.append("Sauvegarder des données dans un fichier")
+    menu.append("Quitter")
+
+def print_menu():
+    for index, item in enumerate(menu):
+        print(str(index + 1) + ". " , item)
+
+    answer = int(input("Votre choix : "))
+    print(menu[answer - 1])
+    print("--------------------------------------------------------")
+
+    return answer
 
 # ------------------ 1 -------------------
 def read_file():
@@ -91,6 +76,7 @@ def read_file():
     students = []
     courses = []
     notes = []
+
     with open(file) as lines:
         for line in lines.readlines():
             if line == "#" and state == "":
@@ -130,23 +116,24 @@ def create_student():
     prenom = input("Prenom : ")
     nom = input("Nom : ")
     age = input("Age : ")
+
     return Etudiant(prenom, nom, age)
 
 # ------------------ 3 -------------------
 def create_note(all_students, all_courses):
-    note = input("Note a attribuer : ")
-    print("Liste de étudiants")
-    i = 1
-    for st in all_students:
-        print(i + ". " + st.__repr__())
-        i += 1
-    i = 1
-    answer_student = input("Votre choix")
-    for crs in all_courses:
-        print(i + ". " + crs.__repr__())
-        i += 1
-    answer_course = input("Votre choix")
+    note = input("Note à attribuer : ")
+    print("Liste des étudiants : ")
+
+    for index, student in enumerate(all_students):
+        print(str(index + 1) + ". " , student)
+    answer_student = input("Votre choix d'étudiant : ")
+
+    for index, cours in enumerate(all_courses):
+        print(str(index + 1) + ". " , cours)
+    answer_course = input("Votre choix du cours : ")
+
     # TODO: Corriger ce code selon le modèle de classe choisi
+    #print()
     new_note = Note(all_students[answer_student-1], all_courses[answer_course-1], note)
     all_students[answer_student-1].addNote(new_note)
     all_courses[answer_course-1].addNote(new_note)
@@ -154,7 +141,7 @@ def create_note(all_students, all_courses):
 
 # ------------------ 4 -------------------
 def display_student_notes(all_students):
-    print("Liste de étudiants")
+    print("Liste des étudiants")
     i = 1
     for st in all_students:
         print(i + ". " + st.__repr__())
@@ -176,8 +163,13 @@ def display_sorted_note(all_courses):
     for note in notes:
         note.get_note_course()
 
-
-
 # -------------------------------------- __MAIN__ ----------------------------------------
 def __main__():
     main()
+
+if __name__ == "__main__":
+    __main__()
+
+# toto.add_note(15)
+# toto.get_notes()
+# print(toto)
