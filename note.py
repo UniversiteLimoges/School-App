@@ -8,8 +8,8 @@ class Note(object):
 
     # Display the note added
     def __repr__(self):
-        return "La note " + self.note + " est attribuée pour l'étudiant " + self.student.prenom + " " + self.student.nom + "(" + self.student.age + " ans) dans le cours de " + self.cours.nom + " (" + self.cours.annee + ")"
+        return "La note " + str(self.note) + " est attribuée pour l'étudiant " + self.student.prenom + " " + self.student.nom + "(" + str(self.student.age) + " ans) dans le cours de " + self.cours.nom + " (" + str(self.cours.annee) + ")"
 
     # Get the note for the 
     def get_note_course(self):
-        print(self.student.prenom + " " + self.student.nom + " (" + self.student.age + " ans) : " + self.note)
+        print(self.student.prenom + " " + self.student.nom + " (" + str(self.student.age) + " ans) : " + str(self.note))

@@ -31,5 +31,4 @@ class Etudiant(Etudiants, object):
     def get_notes(self):
         print("Notes de " + self.prenom + " " + self.nom + " (" + str(self.age) + " ans) : ")
         for note in self.notes:
-            print(note)
-            #print(note.cours.nom + " (" + note.cours.annee + ") : " + note.note)
+            print(note.cours.nom + " (" + str(note.cours.annee) + ") : " + str(note.note))
