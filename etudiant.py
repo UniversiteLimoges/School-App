@@ -1,3 +1,5 @@
+from cours import Courses
+
 class Etudiants(object):
     all_students = []
     pass
@@ -34,6 +36,7 @@ class Etudiant(Etudiants, object):
     # Add a note to the student
     def add_note(self, note):
         self.notes.append(note)
+        Courses.all_courses[Courses.all_courses.index(note.cours)].notes.append(note)
 
     # Get the notes for the student
     def get_notes(self):

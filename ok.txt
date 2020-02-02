@@ -1,0 +1,13 @@
+2 étudiants: 
+Tony Bengué (26 ans)
+Thibault Magy (20 ans)
+4 cours: 
+Python (2020)
+PL/SQL (1995)
+PhP (2018)
+Java (1992)
+4 notes: 
+La note 15 est attribuée pour l'étudiant Tony Bengué(26 ans) dans le cours de Python (2020)
+La note 20 est attribuée pour l'étudiant Tony Bengué(26 ans) dans le cours de PL/SQL (1995)
+La note 14 est attribuée pour l'étudiant Tony Bengué(26 ans) dans le cours de PhP (2018)
+La note 8 est attribuée pour l'étudiant Thibault Magy(20 ans) dans le cours de Python (2020)

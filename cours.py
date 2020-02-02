@@ -3,7 +3,7 @@ class Courses(object):
     pass
 
 class Cours(Courses, object):
-    note = []
+    notes = []
 
     def __init__(self, nom, annee):
         self.nom = nom
@@ -17,7 +17,7 @@ class Cours(Courses, object):
 
     # Add a note to the current course
     def add_note(self, note):
-        self.note.append(note)
+        self.notes.append(note)
 
     # Delete a course with its notes
     def delete():
@@ -28,12 +28,6 @@ class Cours(Courses, object):
         # Delete the current course
         current_course = Courses.all_courses[answer - 1]
         del(Courses.all_courses[answer - 1])
-
-        # Delete the courses and notes for the current learner
-        # for cours in Courses.all_courses:
-        #     for student in Etudiants.all_students:
-        #         print(student.nom)
-        #         print(cours.nom)
 
         print("Le cours " + current_course.nom + " (" + str(current_course.annee) + ") et les notes associées ont eté supprimées.")
 
@@ -49,9 +43,13 @@ class Cours(Courses, object):
         current_cours = Courses.all_courses[answer - 1]
         #print(current_cours)
 
-        print(current_cours[0])
-        notes = current_cours.notes.sort() # On tri donc les notes
+        print(len(current_cours.notes))
+        current_cours.sortNotes()
 
-        for note in notes:
-            # Cette fonction permet d'afficher les notes d'un cours
-            note.get_note_course()
+    # Sort and display
+    def sortNotes(self):
+        dic = {}
+        for note in self.notes:
+            dic[note.note] = note
+        for key in sorted(dic):
+            dic[key].get_note_course()

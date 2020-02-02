@@ -25,7 +25,11 @@ class Note(object):
     # Add a note for a student
     # Cette Fonction permet de créer une note, étant donné qu'une note est liée à un utilisateur et à un cours il faut aussi renvoyer les tableaux d'etudiant et de cours mis à jour
     def create():
-        note = input("Note à attribuer : ")
+        note = -1
+        print("La note doit être comprise entre 0 et 20 inclus !")
+        while note<0 or note>20:
+            note = int(input("Note à attribuer : "))
+
         print("Liste des étudiants : ")
 
         for index, student in enumerate(Etudiants.all_students):
