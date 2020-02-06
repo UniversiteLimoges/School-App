@@ -1,58 +1,35 @@
-from file import File
-from menu import Menu
-from cours import Cours, Courses
-from etudiant import Etudiant, Etudiants
-from note import Note
+#from os import system
+#from menu import Menu
+#from subprocess import Popen
+#import console.app as con
 
-def main():
-    all_notes = []
-    go_on = True
+general_menu = []
+general_menu.append("Console Mode")
+general_menu.append("Web mode")
+general_menu.append("Quitter")
 
-    Menu.create()
-    init_datas()
+go_on = True
+while go_on:
+    print("--------------------------------------------------------")
+    for index, item in enumerate(general_menu):
+        print(str(index + 1) + ". " , item)
 
-    while go_on:
-        answer = Menu.display()
+    answer = input("Veuillez choisir le type d'application à lancer : ")
+    intAnswer = int(answer)
+    print(general_menu[intAnswer- 1])
+    print("--------------------------------------------------------")
 
-        if answer == 1:
-            File.read()
-        elif answer == 2:
-            Etudiant.create()
-        elif answer == 3:
-            Note.create()
-        elif answer == 4:
-            Etudiant.display_notes()
-        elif answer == 5:
-            Cours.display_sorted_notes()
-        elif answer == 6:
-            Cours.delete()
-        elif answer == 7:
-            File.write()
-        elif answer == 8:
-            print("A bientôt !")
-            go_on = False
-        else:
-            print("Mauvais choix, veuillez en choisir un autre")
-
-def init_datas():
-    e1 = Etudiant("Tony", "Bengué", 26)
-    e2 = Etudiant("Thibault", "Magy", 20)
-
-    c1 = Cours("Python", 2020)
-    c2 = Cours("PL/SQL", 1995)
-    c3 = Cours("PhP", 2018)
-    c4 = Cours("Java", 1992)
-
-    e1.add_note(Note(e1, c1, 15))
-    e1.add_note(Note(e1, c2, 20))
-    e1.add_note(Note(e1, c3, 14))
-
-    e2.add_note(Note(e2, c1, 8))
-    #e1.get_notes()
-
-def __main__():
-    main()
-
-if __name__ == "__main__":
-    __main__()
-
+    if intAnswer == 1:
+        go_on = False
+        con.main()
+        #exec(open("console/app.py"))
+        #Menu.create()
+        #Popen('python ./console/app.py')
+        #system("python ./console/app.py")
+    elif intAnswer == 2:
+        exec(open("web/server.py"))
+    elif intAnswer == 3:
+        go_on = False
+        print("Au revoir")
+    else:
+        print("Mauvais choix, veuillez en choisir un autre")
