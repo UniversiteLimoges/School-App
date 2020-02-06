@@ -1,10 +1,10 @@
 1#!/usr/bin/python
 
-from file import File
-from menu import Menu
-from cours import Cours, Courses
-from etudiant import Etudiant, Etudiants
-from note import Note
+from console.file import *
+from console.menu import *
+from console.cours import *
+from console.etudiant import *
+from console.note import *
 
 def main():
     all_notes = []

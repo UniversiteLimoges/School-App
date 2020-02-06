@@ -1,7 +1,7 @@
-#from os import system
-#from menu import Menu
-#from subprocess import Popen
-#import console.app as con
+from os import system
+import console.menu
+from subprocess import Popen
+import console.app as con
 
 general_menu = []
 general_menu.append("Console Mode")

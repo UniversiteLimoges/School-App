@@ -1,6 +1,6 @@
-from cours import  Courses
-from etudiant import Etudiants
-from note import Notes
+from console.cours import  *
+from console.etudiant import *
+from console.note import *
 
 class File(object):
     # Lecture des données depuis un fichier par le biais de leur "parsing"

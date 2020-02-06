@@ -1,5 +1,5 @@
-from cours import Cours, Courses
-from etudiant import Etudiant, Etudiants
+from console.cours import *
+from console.etudiant import *
 
 class Notes(object):
     all_notes = []

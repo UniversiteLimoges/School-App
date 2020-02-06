@@ -1,4 +1,4 @@
-from cours import Courses
+from console.cours import *
 
 class Etudiants(object):
     all_students = []
