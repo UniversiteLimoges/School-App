@@ -27,7 +27,7 @@ while go_on:
         #Popen('python ./console/app.py')
         #system("python ./console/app.py")
     elif intAnswer == 2:
-        exec(open("web/server.py"))
+        exec(open("web/server.py").read())
     elif intAnswer == 3:
         go_on = False
         print("Au revoir")
