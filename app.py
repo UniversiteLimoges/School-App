@@ -1,6 +1,3 @@
-from os import system
-import console.menu
-from subprocess import Popen
 import console.app as con
 
 general_menu = []
@@ -9,6 +6,11 @@ general_menu.append("Web mode")
 general_menu.append("Quitter")
 
 go_on = True
+# https://www.journaldev.com/15539/python-mysql-example-tutorial
+#https://gist.github.com/bradmontgomery/2219997
+#https://pynative.com/python-mysql-database-connection/
+#https://docs.python.org/3/library/cgi.html
+
 while go_on:
     print("--------------------------------------------------------")
     for index, item in enumerate(general_menu):
@@ -22,12 +24,9 @@ while go_on:
     if intAnswer == 1:
         go_on = False
         con.main()
-        #exec(open("console/app.py"))
-        #Menu.create()
-        #Popen('python ./console/app.py')
-        #system("python ./console/app.py")
     elif intAnswer == 2:
-        exec(open("web/server.py").read())
+        go_on = False
+        import server
     elif intAnswer == 3:
         go_on = False
         print("Au revoir")

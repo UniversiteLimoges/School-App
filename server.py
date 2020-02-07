@@ -6,19 +6,7 @@ server_address = ("", PORT)
 
 server = http.server.HTTPServer
 handler = http.server.CGIHTTPRequestHandler
-handler.cgi_directories = ["/"]
-
-class myHandler(handler):
-
-	#Handler for the GET requests
-	def do_GET(self):
-		self.send_response(200)
-		self.send_header('Content-type','text/html')
-		self.end_headers()
-
-		# Send the html message
-		self.wfile.write("Hello World !")
-		return
+handler.cgi_directories = ["/web"]
 
 try:
     print("Serveur actif sur le port :", PORT)
