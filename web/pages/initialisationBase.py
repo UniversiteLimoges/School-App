@@ -46,7 +46,7 @@ class PythonSqlConnect(object):
         sql1 = """
             CREATE TABLE Students
             (
-               	student_id INT PRIMARY KEY NOT NULL,
+               	student_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                 prenom VARCHAR(100),
                 nom VARCHAR(100),
                 age INT
@@ -55,7 +55,7 @@ class PythonSqlConnect(object):
         sql2 ="""
             CREATE TABLE Courses
             (
-                course_id INT PRIMARY KEY NOT NULL,
+                course_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                 nom VARCHAR(100),
                 annee INT
             );
@@ -63,7 +63,7 @@ class PythonSqlConnect(object):
         sql3 = """
             CREATE TABLE Notes
            (
-               note_id INT PRIMARY KEY NOT NULL,
+               note_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                note INT,
                student_id INT,
                course_id INT,
@@ -76,8 +76,22 @@ class PythonSqlConnect(object):
         self.cursor.execute(sql3)
         print("Tables créées")
 
-    def populateDatabase(self, table):
-        pass
+    def populateStudent(self, prenom, nom, age):
+        sql = """
+            INSERT INTO Student (prenom, nom, age)
+            VALUES
+            ( '""" + prenom + """', '""" + nom + """', '""" + age + """');
+        """
+        self.cursor.execute(sql)
+
+    def populateCourse(self, nom, annee):
+        sql = """
+            INSERT INTO Student (nom, annee)
+            VALUES
+            ('""" + nom + """', '""" + annee + """');
+        """
+        self.cursor.execute(sql)
+    
 
     def displayDatabases(self, table):
         # SQL query string
