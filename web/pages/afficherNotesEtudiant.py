@@ -1,34 +1,28 @@
-# coding: utf-8
-import cgi
-#encodingUTF8()
+import cgi 
+form = cgi.FieldStorage()
+#print(form.getvalue("name"))
 
-# Encoding solution
-def encodingUTF8():
-    import sys
-    sys.stdout = open(sys.stdout.fileno(), mode='w', encoding='utf8', buffering=1)
-    print("Content-type: text/html; charset=utf-8\n")
+# Encoding
+import sys
+sys.stdout = open(sys.stdout.fileno(), mode='w', encoding='utf8', buffering = 1)
+print("Content-type: text/html; charset=utf-8\n")
 
-def debugPage():
-    import cgitb; cgitb.enable()
-    cgi.test()
-
-def createLink(file, string):
-    new_str = """<a href="{}.py">{}</a>""".format(file, string)
-    print(menu + new_str + "<br>")
-
-header = """<!DOCTYPE html>
+html = """<!DOCTYPE html>
 <head>
-    <head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"></head>
-    <title>Mon programme</title>
+    <title>Afficher les notes d'un étudiant</title>
 </head>
 <body>
+    <form action="/index.py" method="post">
+        <p>Liste des étudiants : </p>
+        <ul>
+            <li></li>
+        </ul>
+        <label>Votre choix :
+            <input type="number" name="etudiantChoice" value="" placeholder="Quel étudiant?" />
+        </label><br>
+        <input type="submit" name="send" value="Valider">
+    </form> 
+</body>
+</html>
 """
-
-menu = ""
-print(header)
-createLink("./pages/initialisationBase", "1. Créer et peupler la base de données")
-createLink("./pages/ajoutEtudiant", "2. Ajouter un étudiant")
-createLink("./pages/ajoutNote", "3. Ajouter une note")
-createLink("./pages/afficherNotesEtudiant", "4. Afficher les notes d'un étudiant")
-createLink("./pages/afficherNotesTrieesCours", "5. Afficher les notes triées d'un cours")
-createLink("/pages/supprimerCours", "6. Supprimer un cours")
+print(html)

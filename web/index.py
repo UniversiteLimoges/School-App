@@ -1,17 +1,4 @@
 import cgi
-import sys
-import traceback
-
-# encodingUTF8()
-# print("Content-Type: text/html")
-
-sys.stderr = sys.stdout
-
-# Encoding solution
-def encodingUTF8():
-    import sys
-    sys.stdout = open(sys.stdout.fileno(), mode='w', encoding='utf8', buffering=1)
-    print("Content-type: text/html; charset=utf-8\n")
 
 def createLink(file, string):
     new_str = """<a href="{}.py">{}</a>""".format(file, string)
@@ -19,13 +6,12 @@ def createLink(file, string):
 
 header = """<!DOCTYPE html>
 <head>
-    <title>Mon programme</title>
+    <title>Accueil</title>
 </head>
 <body>
 """
 
 menu = ""
-
 try:
     #import cgi.class
     #cgi.debugPage()
