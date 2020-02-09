@@ -23,15 +23,19 @@ try:
     con.createDatabase('test')
 
     # Create tables
-    con = PythonSqlConnect(PythonSqlConnect.tonyDb)
+    con = PythonSqlConnect(PythonSqlConnect.thibaultDb)
     con.createTables()
 
     # Populate the tables
-    con.populateStudent("Marc", "Zuckerberg", 34)
+    con.populateStudent("Mark", "Zuckerberg", 34)
     con.populateStudent("Bill", "Gates", 63)
     con.populateCourse("Deep Learning", 2018)
     con.populateCourse("Python", 2010)
 
+    con.addNote("Mark", "Zuckerberg", "Deep Learning", 15)
+    con.addNote("Bill", "Gates", "Python", 14)
+    con.addNote("Mark", "Zuckerberg", "Python", 17)
+    
     # con.version()
     # con.displayDatabases()
 

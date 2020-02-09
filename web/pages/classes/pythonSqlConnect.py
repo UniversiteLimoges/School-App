@@ -52,7 +52,7 @@ class PythonSqlConnect(object):
             (
                 course_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                 nom VARCHAR(100) NOT NULL,
-                annee INT 
+                annee INT
             );
         """
         sql3 = """
@@ -61,9 +61,7 @@ class PythonSqlConnect(object):
                 note_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                 note INT NOT NULL,
                 student_id INT NOT NULL,
-                course_id INT NOT NULL,
-                FOREIGN KEY (student_id) REFERENCES Students(student_id),
-                FOREIGN KEY (course_id) REFERENCES Courses(course_id)
+                course_id INT NOT NULL
             );
         """
         self.cursor.execute(sql1)
@@ -90,17 +88,47 @@ class PythonSqlConnect(object):
         self.connection.commit()
         print("<p>Le cours {} {} a été ajouté</p>".format(nom, annee))
 
+    def addNote(self, st_prenom, st_nom, course, note):
+        sql1 = "SELECT student_id FROM students WHERE prenom='{}' AND nom='{}'".format(st_prenom, st_nom)
+        sql2 = "SELECT course_id FROM courses WHERE nom='{}'".format(course)
+        self.cursor.execute(sql1)
+        student_id = self.cursor.fetchone()
+        self.cursor.execute(sql2)
+        course_id = self.cursor.fetchone()
+
+        ressql = "INSERT INTO notes (note, student_id, course_id) VALUES ({}, {}, {})".format(int(note), student_id[0], course_id[0])
+        self.cursor.execute(ressql)
+        print("<p>La note {} pour le cours de {} a été ajoutée pour {} {}</p>".format(note, course, st_prenom, st_nom))
+
+    def addNoteById(self, note, student_id, course_id):
+        sql = "INSERT INTO notes (note, student_id, course_id) VALUES ({}, {}, {})".format(note, student_id, course_id)
+        self.cursor.execute(sql)
+        self.connection.commit()
+        print("<p>La note {} pour le cours {} a été ajoutée pour l'étudiant {}</p>".format(note, course_id, student_id))
+
+    def getAllStudents(self):
+        sql = "SELECT * FROM students"
+        self.cursor.execute(sql)
+        res = self.cursor.fetchall()
+        return res
+
+    def getAllCourses(self):
+        sql = "SELECT * FROM courses"
+        self.cursor.execute(sql)
+        res = self.cursor.fetchall()
+        return res
+
     # Show all databases
     def displayDatabases(self):
         # SQL query string
         sqlQuery = "SHOW DATABASES"
-    
+
         # Execute the sqlQuery
         self.cursor.execute(sqlQuery)
         # print("Database {}".format(table))
 
         for x in self.cursor:
-            print(x) 
+            print(x)
 
     # Close de connection
     def closeCon(self):
