@@ -22,8 +22,7 @@ lastName = form.getvalue("lastName")
 age = form.getvalue("age")
 
 try:
-    # Create Database
-    con = PythonSqlConnect(PythonSqlConnect.tonyDb)
+    con = PythonSqlConnect()
     con.populateStudent(firstName, lastName, age)
 
 except Exception as e:

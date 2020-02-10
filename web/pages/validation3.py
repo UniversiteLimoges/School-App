@@ -17,20 +17,18 @@ html = """<!DOCTYPE html>
 print(html)
 
 # Values get from the form
-note = form.getvalue("note")
 etudiantChoice = form.getvalue("etudiantChoice")
-courseChoice = form.getvalue("courseChoice")
 
 try:
-    # Create Database
     con = PythonSqlConnect()
-    con.addNoteById(note, etudiantChoice, courseChoice)
+    con.displayNotesForStudent(etudiantChoice)
+    # print(con.getStudentById(etudiantChoice))
 
 except Exception as e:
     print("Exception occured:{}".format(e))
 
 finally:
     #disconnect from server
-    con.closeCon()
+    # con.closeCon()
 
     print("<a href='../index.py'>Retour au menu principal</a>")

@@ -20,13 +20,13 @@ print(header)
 try:
     # Create Database
     con = PythonSqlConnect(PythonSqlConnect.emptyDb)
-    con.createDatabase('test')
-
+    con.createDatabase(PythonSqlConnect.databaseName)
+    
     # Create tables
-    con = PythonSqlConnect(PythonSqlConnect.thibaultDb)
+    con = PythonSqlConnect()
     con.createTables()
 
-    # Populate the tables
+    # # Populate the tables
     con.populateStudent("Mark", "Zuckerberg", 34)
     con.populateStudent("Bill", "Gates", 63)
     con.populateCourse("Deep Learning", 2018)
@@ -43,6 +43,4 @@ except Exception as e:
     print("Exception occured:{}".format(e))
 
 finally:
-    # disconnect from server
-    con.closeCon()
     print("<a href='../index.py'>Retour au menu principal</a>")

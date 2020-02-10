@@ -1,37 +1,38 @@
 import pymysql
 
 class PythonSqlConnect(object):
-    # Parameters
-    emptyDb = {"login": "root", "password": "", "database": None}
-    defaultDb = {"login": "test", "password": "test", "database": "test" }
-    tonyDb = {"login": "root", "password": "", "database": "test" }
-    thibaultDb = {"login": "admin", "password": "", "database": "test" }
+    # To modify
+    databaseName = "tonybengue"
+    dbLogin = "root"
+    dbPassword = ""
 
-    def __init__(self, param):
-        if param["database"] is not None:
-            # Open database connection
-            self.connection = pymysql.connect('localhost', param["login"], param["password"], param["database"])
-        else:
-            # Open database connection
+    # To create the database
+    emptyDb = {"login": "root", "password": "", "database": None}
+
+    def __init__(self, param = None):
+        # To initialize the connection
+        if param is None:
+            self.connection = pymysql.connect('localhost', PythonSqlConnect.dbLogin, PythonSqlConnect.dbPassword, PythonSqlConnect.databaseName)
+        elif param["database"] is None:
             self.connection = pymysql.connect('localhost', param["login"], param["password"])
 
         # Cursor
         self.cursor = self.connection.cursor()
-
+    
     # Get the version of the database
     def version(self):
         self.cursor.execute("SELECT VERSION()")
         version = self.cursor.fetchone()
-        print("Database version: {}".format(version[0]))
+        print("<p>Database version: {}</p>".format(version[0]))
 
     # Create a database
     def createDatabase(self, table):
-        self.cursor.execute("DROP DATABASE {}".format(table))
+        self.cursor.execute("DROP DATABASE IF EXISTS {}".format(table))
         sqlQuery = "CREATE DATABASE {}".format(table)
         self.cursor.execute(sqlQuery)
 
         self.closeCon()
-        print("Database {} crée avec succès".format(table))
+        print("<p>Database {} crée avec succès</p>".format(table))
 
     # Create tables
     def createTables(self):
@@ -88,35 +89,89 @@ class PythonSqlConnect(object):
         self.connection.commit()
         print("<p>Le cours {} {} a été ajouté</p>".format(nom, annee))
 
+    # Add note for the current user
     def addNote(self, st_prenom, st_nom, course, note):
         sql1 = "SELECT student_id FROM students WHERE prenom='{}' AND nom='{}'".format(st_prenom, st_nom)
-        sql2 = "SELECT course_id FROM courses WHERE nom='{}'".format(course)
         self.cursor.execute(sql1)
         student_id = self.cursor.fetchone()
+
+        sql2 = "SELECT course_id FROM courses WHERE nom='{}'".format(course)
         self.cursor.execute(sql2)
         course_id = self.cursor.fetchone()
 
         ressql = "INSERT INTO notes (note, student_id, course_id) VALUES ({}, {}, {})".format(int(note), student_id[0], course_id[0])
         self.cursor.execute(ressql)
+        self.connection.commit()
         print("<p>La note {} pour le cours de {} a été ajoutée pour {} {}</p>".format(note, course, st_prenom, st_nom))
 
+    # Add a note by the student id and the course id
     def addNoteById(self, note, student_id, course_id):
         sql = "INSERT INTO notes (note, student_id, course_id) VALUES ({}, {}, {})".format(note, student_id, course_id)
         self.cursor.execute(sql)
         self.connection.commit()
         print("<p>La note {} pour le cours {} a été ajoutée pour l'étudiant {}</p>".format(note, course_id, student_id))
 
+    # Display all notes for the current student
+    def displayNotesForStudent(self, student_id):
+        student = self.getStudentById(student_id)
+        print("<p>Notes de {} {} ({} ans) : </p>".format(student[1], student[2], student[3]))
+
+        notes = self.getNotesByStudentId(student[0])
+
+        print("<ul>")
+        for note in notes:
+            # print(note)
+            courses = self.getCourseById(note[3])
+            print("<li> {} ({}) : {}</li>".format(courses[1], courses[2], note[1]))
+        print("</ul>")
+
+    # Delete a course by id
+    def deleteCourse(self, course_id):
+        sql = "DELETE FROM courses WHERE course_id= {}".format(course_id)
+        self.cursor.execute(sql)
+        self.connection.commit()
+        print("<p>Le cours {} et les notes associées ont été supprimées</p>".format(course_id))
+
+    # Get all students
     def getAllStudents(self):
         sql = "SELECT * FROM students"
         self.cursor.execute(sql)
         res = self.cursor.fetchall()
+
         return res
 
+    # Get all courses
     def getAllCourses(self):
         sql = "SELECT * FROM courses"
         self.cursor.execute(sql)
         res = self.cursor.fetchall()
+
         return res
+
+    # Get the student by the id
+    def getStudentById(self, student_id):
+        sql1 = "SELECT * FROM students WHERE student_id={}".format(student_id)
+        self.cursor.execute(sql1)
+        student = self.cursor.fetchone()
+
+        return student
+
+    # Get the course by the id
+    def getCourseById(self, course_id):
+        # Get the student by the id
+        sql1 = "SELECT * FROM courses WHERE course_id={}".format(course_id)
+        self.cursor.execute(sql1)
+        student = self.cursor.fetchone()
+
+        return student
+
+    # Get all notes by the student_id
+    def getNotesByStudentId(self, student_id):
+        sql = "SELECT * FROM notes WHERE student_id={}".format(student_id)
+        self.cursor.execute(sql)
+        notes = self.cursor.fetchall()
+
+        return notes
 
     # Show all databases
     def displayDatabases(self):
@@ -130,6 +185,6 @@ class PythonSqlConnect(object):
         for x in self.cursor:
             print(x)
 
-    # Close de connection
+    # Close the connection
     def closeCon(self):
         self.connection.close()

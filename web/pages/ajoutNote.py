@@ -5,8 +5,9 @@ form = cgi.FieldStorage()
 
 # Encoding
 import sys
+
 # Query and Fetch the students
-con = PythonSqlConnect(PythonSqlConnect.thibaultDb)
+con = PythonSqlConnect()
 students = con.getAllStudents()
 courses = con.getAllCourses()
 
@@ -26,8 +27,8 @@ html = """<!DOCTYPE html>
         <ul>
 """
 
-for i, student in enumerate(students):
-    html += "<li>{} - {} {} {}</li>".format(i+1, student[1], student[2], student[3])
+for student in students:
+    html += "<li>{} - {} {} {}</li>".format(student[0], student[1], student[2], student[3])
 
 html += """
         </ul>
@@ -38,8 +39,8 @@ html += """
         <ul>
 """
 
-for i, course in enumerate(courses):
-    html += "<li>{} - {} {}</li>".format(i+1, course[1], course[2])
+for course in courses:
+    html += "<li>{} {}</li>".format(course[0], course[1], course[2])
 
 html += """
         </ul>
